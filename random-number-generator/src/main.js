@@ -19,7 +19,7 @@ rangeOption.value = "range";
 rangeOption.checked = true;
 
 const rangeLabel = document.createElement("label");
-rangeLabel.textContent = "Из диапазона чисел";
+rangeLabel.textContent = "From a range of numbers";
 rangeLabel.appendChild(rangeOption);
 
 // Создаем радиокнопки для выбора метода
@@ -29,7 +29,7 @@ listOption.name = "generationMethod";
 listOption.value = "list";
 
 const listLabel = document.createElement("label");
-listLabel.textContent = "Из списка чисел";
+listLabel.textContent = "From the list of numbers";
 listLabel.appendChild(listOption);
 
 methodContainer.append(rangeLabel, listLabel);
@@ -39,12 +39,14 @@ const rangeContainer = document.createElement("div");
 rangeContainer.className = "range-container";
 
 const textFrom = document.createElement("p");
+textFrom.className = "fromTo";
 textFrom.textContent = "from";
 const inputRangeFrom = document.createElement("input");
 inputRangeFrom.type = "number";
 inputRangeFrom.className = "input-range";
 
 const textTo = document.createElement("p");
+textTo.className = "fromTo";
 textTo.textContent = "to";
 const inputRangeTo = document.createElement("input");
 inputRangeTo.type = "number";
@@ -58,7 +60,8 @@ listContainer.className = "list-container";
 listContainer.style.display = "none"; // Скрываем по умолчанию
 
 const textList = document.createElement("p");
-textList.textContent = "Введите числа через запятую:";
+textList.className = "textList-name";
+textList.textContent = "Enter the numbers separated by commas:";
 const inputList = document.createElement("input");
 inputList.type = "text";
 inputList.className = "input-list";
@@ -88,9 +91,11 @@ buttonGenerate.addEventListener("click", () => {
 
     if (!isNaN(from) && !isNaN(to) && from < to) {
       const randomNumber = Math.floor(Math.random() * (to - from + 1)) + from;
+      result.className = "result";
       result.textContent = `${randomNumber}`;
     } else {
-      result.textContent = `Пожалуйста, введите корректный диапазон`;
+      result.className = "result-error";
+      result.textContent = `Try again :)`;
     }
   } else if (selectedMethod === "list") {
     const numbers = inputList.value
@@ -100,9 +105,11 @@ buttonGenerate.addEventListener("click", () => {
 
     if (numbers.length > 0) {
       const randomNumber = numbers[Math.floor(Math.random() * numbers.length)];
+      result.className = "result";
       result.textContent = `${randomNumber}`;
     } else {
-      result.textContent = `Пожалуйста, введите корректный список чисел`;
+      result.className = "result-error";
+      result.textContent = `Try again :)`;
     }
   }
 });
@@ -110,11 +117,11 @@ buttonGenerate.addEventListener("click", () => {
 // Добавляем обработчик для переключения между методами
 methodContainer.addEventListener("change", (event) => {
   if (event.target.value === "range") {
-    rangeContainer.style.display = "block";
+    rangeContainer.style.display = "flex";
     listContainer.style.display = "none";
   } else {
     rangeContainer.style.display = "none";
-    listContainer.style.display = "block";
+    listContainer.style.display = "flex";
   }
 });
 
